@@ -15,8 +15,6 @@ class Transacciones {
     function __construct()
     {
         $this->db = new Database();
-        
-        // $this->model2 = $this->model("Profile");
     }
 
     function model($model = "")
@@ -26,10 +24,8 @@ class Transacciones {
     }
 
 
-    public function cualquiercosa($valores) {
-        // $valores = explode(',', $valores);
-
-        // $array1 = [];
+    public function trsRegistro($valores) {
+        
         try {
             $connection = $this->db->getConnection();
 
@@ -45,10 +41,11 @@ class Transacciones {
                     $lastItem = array_key_last($value);
 
                     $value[$lastItem] = $id;
-                    // $id = $this->model->storage($value);
+
+                    $id = $this->model->storage($value, $connection);
 
                 } else{
-                    $id = $this->model->storage($value);
+                    $id = $this->model->storage($value, $connection);
                 }
             }
 

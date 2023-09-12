@@ -12,8 +12,12 @@ class ProfileModel extends Model
         parent::__construct();
     }
 
-    function storage($valores) {
-        $this->connection = $this->db->getConnection();
+    function storage($valores, $comm = "") {
+        if($comm !=""){
+            $this->connection = $comm;
+        }else{
+            $this->connection = $this->db->getConnection();
+        }
         $this->insert("profiles", $valores);
         $this->connection = $this->db->closConnection();
     }

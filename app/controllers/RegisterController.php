@@ -12,7 +12,7 @@ class RegisterController extends controller
 
     function __construct()
     {
-        $this->model = $this->model("Profile");
+        $this->model = $this->model("User");
         $this->servicio = new Transacciones();
     }
 
@@ -52,10 +52,28 @@ class RegisterController extends controller
                 $errores['phone_error'] = "El ceular no esta definido";
             }
             if ($pass == "") {
-                $errores['pass_error'] = "la contraseña no esta definido";
+                $errores['pass_error'] = "La contraseña no esta definida";
             }
             if ($pass != $pass2) {
-                $errores['verify_error'] = "la contraseña no coincide";
+                $errores['verify_error'] = "La contraseña no coincide";
+            }
+            if (strlen($name) > 50) {
+                $errores['name_error'] = "El nombre excede el limite de caracteres";
+            }
+            if (strlen($last) > 50) {
+                $errores['last_error'] = "El apellido excede el limite de caracteres";
+            }
+            if (strlen($email) > 50) {
+                $errores['mail_error'] = "El correo excede el limite de caracteres";
+            }
+            if (strlen($phone) > 15) {
+                $errores['phone_error'] = "El ceular excede el limite de caracteres";
+            }
+            if (strlen($pass) > 50) {
+                $errores['pass_error'] = "La contraseña excede el limite de caracteres";
+            }
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errores['mail_error'] =  "El correo no es valido";
             }
 
             if (empty($errores)) {
@@ -69,11 +87,11 @@ class RegisterController extends controller
                         "first_name" => $name,
                         "last_name" => $last,
                         "phone" => $phone,
-                        "id_user_fk" => null
+                        "user_id" => null
                     ]
                 ];
 
-                $transaccion =  $this->servicio->cualquiercosa($valores);
+                $transaccion =  $this->servicio->trsRegistro($valores);
                 
             } else {
                 $data = [
@@ -100,6 +118,7 @@ class RegisterController extends controller
             //Consultamos con el modelo y pasamos el correo
             $data = $this->model->getEmail($email);
             //Preguntamos si nos llega algun dato de la consulta
+
             if ($data) {
                 $response['status']  = true;
                 $response['data']    = array(

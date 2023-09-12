@@ -25,7 +25,9 @@ class UserModel extends Model
 
     function getEmail($correo)
     {
-        $sql = "SELECT admon_correo AS email FROM users WHERE email = :correo";
+        echo $correo;
+        $this->connection = $this->db->getConnection();
+        $sql = "SELECT email FROM users WHERE email = :correo";
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":correo", $correo);
         $stm->execute();
@@ -66,8 +68,13 @@ class UserModel extends Model
         return $stm->fetch();
     }
 
-    function storage($valores){
-        $this->connection = $this->db->getConnection();
+    function storage($valores, $comm = ""){
+        if($comm !=""){
+            $this->connection = $comm;
+        }else{
+            $this->connection = $this->db->getConnection();
+        }
+        
         return $this->insert("users", $valores);
         $this->connection = $this->db->closConnection();
     }

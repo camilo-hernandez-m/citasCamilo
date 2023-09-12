@@ -31,11 +31,12 @@ const validacion = async (e) => {
                     body: request_data
                 })
                 //Respuesta servidor
-                let json = await ajax.json()
-
+                let json = await ajax.json();
+                
+                console.log("ddfdfgdfg");
                 //Validamos el codigo de respuesta
+                alert("el correo ya esta registrado");
                 if (json.status) {
-                    console.log(json.data)
                 } else {
                     console.log(json.data)
                 }
