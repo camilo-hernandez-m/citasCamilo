@@ -25,11 +25,19 @@ class UserModel extends Model
 
     function getEmail($correo)
     {
-        echo $correo;
         $this->connection = $this->db->getConnection();
         $sql = "SELECT email FROM users WHERE email = :correo";
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":correo", $correo);
+        $stm->execute();
+        return $stm->fetch();
+    }
+
+    function getUsuario($usuario){
+        $this->connection = $this->db->getConnection();
+        $sql = "SELECT user_name  FROM users WHERE user_name  = :user";
+        $stm = $this->connection->prepare($sql);
+        $stm->bindValue(":user", $usuario);
         $stm->execute();
         return $stm->fetch();
     }

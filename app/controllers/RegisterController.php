@@ -3,6 +3,7 @@
 namespace Adso\controllers;
 
 use Adso\Libs\controller;
+use Adso\libs\Helper;
 use Adso\servicios\Transacciones;
 
 class RegisterController extends controller
@@ -77,11 +78,12 @@ class RegisterController extends controller
             }
 
             if (empty($errores)) {
+
                 $valores = [
                     "user" => [
                         "user_name" => $name,
                         "email" => $email,
-                        "password" => $pass
+                        "password" => Helper::encrypt2($pass)
                     ],
                     "profile" =>[
                         "first_name" => $name,
@@ -106,7 +108,7 @@ class RegisterController extends controller
     {
         $response = array(
             'status'    => false,
-            'data'      => array(),
+            'data'      => false,
             'message'   => 'Esta intentando acceder a informaión privada'
         );
         //Validamos que la solicitud sea por POST
@@ -120,20 +122,44 @@ class RegisterController extends controller
             //Preguntamos si nos llega algun dato de la consulta
 
             if ($data) {
-                $response['status']  = true;
-                $response['data']    = array(
-                    'email' => $data
-                );
+                $response['status']  = 200;
+                $response['data']   = true;
                 $response['message'] = 'el correo se encuentra registrado';
             } else {
-                $response['status']  = false;
-                $response['data']    = array(
-                    'email' => $data
-                );
-                $response['message'] = 'el correo se encuentra disponible';
+                $response['status'] = 200;
+                $response['message'] = 'estoy sobre escribiendo el mensaje';
             }
+            //Codificamos la respuesta al cliente
+            echo json_encode($response, http_response_code($response['status']) );
         }
-        //Codificamos la respuesta al cliente
-        echo json_encode($response);
+    }
+    function user()
+    {
+        $response = array(
+            'status'    => false,
+            'data'      => false,
+            'message'   => 'Esta intentando acceder a informaión privada'
+        );
+        //Validamos que la solicitud sea por POST
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $request = json_decode(file_get_contents("php://input"));
+            //Tomamos el atributo correo que se envio codificado
+            //De igual forma pudo llegar otro atribuito o varios atributos
+            $usuario = $request->usuario;
+            //Consultamos con el modelo y pasamos el correo
+            $data = $this->model->getUsuario($usuario);
+            //Preguntamos si nos llega algun dato de la consulta
+
+            if ($data) {
+                $response['status']  = 200;
+                $response['data']   = true;
+                $response['message'] = 'el correo se encuentra registrado';
+            } else {
+                $response['status'] = 200;
+                $response['message'] = 'estoy sobre escribiendo el mensaje';
+            }
+            //Codificamos la respuesta al cliente
+            echo json_encode($response, http_response_code($response['status']) );
+        }
     }
 }

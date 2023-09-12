@@ -58,4 +58,15 @@ class Model
             return $this->connection->errorInfo();
         }
     }
+
+    public function select($tabla = ""){
+
+        $sql = "SELECT * FROM $tabla";
+
+        $stm = $this -> connection -> prepare($sql);
+
+        $stm -> execute();
+
+        return $stm -> fetchAll();
+    }
 }

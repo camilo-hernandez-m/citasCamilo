@@ -17,9 +17,13 @@ class RolesController extends Controller{
     {
         $data = [
             "titulo" => "Roles",
-            "subtitulo" => "Formulario roles",
+            "subtitulo" => "Lista de roles",
         ];
 
+        $roles = $this -> model ->getRoles();
+
+        print_r($roles);
+        
         $this->view('roles', $data, 'auth');
     }
 

@@ -14,16 +14,16 @@ class AdminController extends Controller
     }
 
     function index(){
-        $sesion = new Session();
-        if($sesion->getLogin()){
+        // $sesion = new Session();
+        // if($sesion->getLogin()){
             $data = [
                 "titulo"    => "Home",
                 "subtitulo" => "Saludo del sistema",
                 "menu" => true
             ];
             $this->view("admin", $data, 'app');
-        }else{
-            header('location:'.URL);
-        }
+        // }else{
+        //     header('location:'.URL);
+        // }
     }
 }

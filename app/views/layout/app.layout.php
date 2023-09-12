@@ -22,7 +22,7 @@
             <div class="header__items">
                 <?php
                 if (isset($data['menu']) && $data['menu'] == true) { ?>
-                    <a href="#" class="header__link">Roles</a>
+                    <a href="<?= URL ?>/roles" class="header__link">Roles</a>
                     <a href="#" class="header__link">Permisos</a>
                 <?php } else{ ?>
                     <a href="<?= URL ?>/login" class="header__link">Login</a>

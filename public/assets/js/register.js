@@ -2,7 +2,10 @@
 const url = "http://citas.test"
 //Atributos del formulario
 const email = document.getElementById('email')
+let usuario = document.getElementById('first_name');
 
+let form = document.getElementById('form');
+let btn = document.getElementById("btnRegistrar");
 
 //Función validar correo electronico
 const validarEmail = email => {
@@ -10,6 +13,11 @@ const validarEmail = email => {
     // el @ no puede ser el primer caracter del correo 
     // y el punto debe ir posicionando al menos un carácter después de la @
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+const enviarFormulario = (form) => {
+    form.submit()
+    
 }
 
 //Función para solicitar datos al servidor
@@ -32,13 +40,17 @@ const validacion = async (e) => {
                 })
                 //Respuesta servidor
                 let json = await ajax.json();
-                
-                console.log("ddfdfgdfg");
+                console.log(json);
                 //Validamos el codigo de respuesta
-                alert("el correo ya esta registrado");
-                if (json.status) {
-                } else {
-                    console.log(json.data)
+                if (json.data) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'El correo no esta disponible',
+                        icon: 'error',
+                        confirmButtonText: 'Cerrar'
+                      })
+                }else{
+
                 }
             } catch (err) {
                 let message = err.statusText || 'Ocurrio un error'
@@ -50,5 +62,47 @@ const validacion = async (e) => {
     }
 }
 
+const validacion2 = async (e) => {
+    //Validamos que el campo correo este lleno
+    if (usuario.value != '') {
+        //Validamos que el formato del correo sea valido
+
+        //Los datos que enviaremos al controlador
+        const data = {
+            usuario: usuario.value
+        }
+        //Codificamos los datos
+        const request_data = JSON.stringify(data)
+        try {
+            //Realizamos el envio a la ruta del controlador
+            let ajax = await fetch(url + '/register/user', {
+                method: 'POST',
+                body: request_data
+            })
+            //Respuesta servidor
+            let json = await ajax.json();
+            console.log(json);
+            //Validamos el codigo de respuesta
+            if (json.data) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'El nombre de usuario ya existe',
+                    icon: 'error',
+                    confirmButtonText: 'Cerrar'
+                    })
+            }else{
+
+            }
+        } catch (err) {
+            let message = err.statusText || 'Ocurrio un error'
+        } finally {
+        }
+    } else {
+        alert("Por favor, escribe un correo electrónico válido");
+    }
+}
+
 //Eventos del formulario
-email.addEventListener('blur', validacion)
+email.addEventListener('blur', validacion);
+usuario.addEventListener('blur', validacion2)
+btn.addEventListener("click", enviarFormulario);
