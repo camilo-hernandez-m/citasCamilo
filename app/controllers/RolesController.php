@@ -23,7 +23,7 @@ class RolesController extends Controller{
             "roles" => $roles
         ];
         
-        $this->view('roles', $data, 'auth');
+        $this->view('rol/index', $data, 'auth');
     }
 
     function create(){
@@ -33,7 +33,7 @@ class RolesController extends Controller{
                 "subtitulo" => "Creacion de roles",
             ];
 
-            $this -> view("rolCreate", $data, "auth");
+            $this -> view("rol/create", $data, "auth");
         
     }
 
@@ -67,7 +67,7 @@ class RolesController extends Controller{
 
                 $roles = $this -> model ->getRoles();
                 
-                $this->view('roles', $data, 'auth');
+                $this->view('rol/index', $data, 'auth');
 
             }else{
                 $data = [
@@ -75,11 +75,29 @@ class RolesController extends Controller{
                     "subtitulo" => "Creacion de roles",
                 ];
     
-                $this -> view("rolCreate", $data, "auth");
+                $this -> view("rol/create", $data, "auth");
             }
         }else{
 
         }
+    }
+
+    function editar($id){
+
+        $save = $this -> model -> getRole($id);
+
+        $data = [
+            "titulo" => "Roles",
+            "subtitulo" => "Actualizacion de roles",
+            "data" => $save
+        ];
+
+        $this -> view("rol/update", $data, "auth");
+    }
+
+    function update(){
+        
+        
     }
 
 }
