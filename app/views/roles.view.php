@@ -1,11 +1,39 @@
-<div class="container">
-    <form class="login" action="<?= URL ?>/register/validate" method="POST" autocomplete="off">
-        <h1 class="login__title">Cree un rol</h1>
-        <div>
-            <input type="text" class="login__input" name="role_name" placeholder="Nombre del rol">
-        </div>
-        <div class="login__panel">
-            <button class="login__btn">Guardar</button>
-        </div>        
+<div>
+    <div>
+        <button><a href="<?= URL ?>/roles/create">crear rol</a></button>
+    </div>
+           
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Nombre</th>
+                    <th>Fecha de creado</th>
+                    <th>Fecha de modificacion</th>
+                    <th>acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+
+                            use Adso\libs\DateHelper;
+
+                foreach($data['roles'] as $value){
+                ?>
+                <tr>
+                    <td><?= $value['id_role'] ?></td>
+                    <td><?= $value['name_role'] ?></td>
+                    <td><?= DateHelper::shortDate($value['created_at']) ?></td>
+                    <td><?= $value['updated_at'] ?></td>
+                    <td><button>editar</button></td>
+                </tr>
+                <?php
+                }
+                ?>
+            </tbody>
+        </table>
+            
+        
+        
     </form>
 </div>

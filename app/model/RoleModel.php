@@ -4,7 +4,7 @@ namespace Adso\model;
 
 use Adso\libs\Model;
 
-class RolesModel extends Model{
+class RoleModel extends Model{
     
     function __construct()
     {
@@ -17,5 +17,11 @@ class RolesModel extends Model{
         $this -> connection = $this -> db -> closConnection();
 
         return $data;
+    }
+
+    function storage($roles){
+        $this -> connection = $this -> db -> getConnection();
+        $data = $this -> insert("roles", $roles);
+        $this -> connection = $this -> db -> closConnection();
     }
 }
