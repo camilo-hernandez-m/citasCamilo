@@ -5,6 +5,8 @@ namespace Adso\model;
 use Adso\libs\Model;
 
 class RoleModel extends Model{
+
+    private $tabla = "roles";
     
     function __construct()
     {
@@ -13,7 +15,7 @@ class RoleModel extends Model{
 
     function getRoles(){
         $this -> connection = $this -> db -> getConnection();
-        $data = $this -> select("roles");
+        $data = $this -> select($this -> tabla);
         $this -> connection = $this -> db -> closConnection();
 
         return $data;
@@ -21,7 +23,14 @@ class RoleModel extends Model{
 
     function storage($roles){
         $this -> connection = $this -> db -> getConnection();
-        $data = $this -> insert("roles", $roles);
+        $data = $this -> insert($this -> tabla, $roles);
         $this -> connection = $this -> db -> closConnection();
+    }
+
+    function getRole($id){
+        $this -> connection = $this -> db -> getConnection();
+        $data = $this -> getDataById($id, $this -> tabla);
+        $this -> connection = $this -> db -> closConnection();
+        return $data;
     }
 }

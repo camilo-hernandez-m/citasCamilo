@@ -17,15 +17,17 @@
                 <?php
 
                             use Adso\libs\DateHelper;
+                            use Adso\libs\Helper;
 
                 foreach($data['roles'] as $value){
                 ?>
                 <tr>
-                    <td><?= $value['id_role'] ?></td>
                     <td><?= $value['name_role'] ?></td>
                     <td><?= DateHelper::shortDate($value['created_at']) ?></td>
-                    <td><?= $value['updated_at'] ?></td>
-                    <td><button>editar</button></td>
+                    <td><?= DateHelper::shortDate($value['updated_at']) ?></td>
+                    <td>
+                        <a href="<?= URL ?>/roles/editar/<?= $value['id_role'] ?>">editar</a>
+                    </td>
                 </tr>
                 <?php
                 }

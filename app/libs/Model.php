@@ -69,4 +69,15 @@ class Model
 
         return $stm -> fetchAll();
     }
+
+    public function getDataById($param, $tabla = "" ){
+
+        $sql = "SELECT * FROM $tabla WHERE id_role = $param";
+
+        $stm = $this -> connection -> prepare($sql);
+
+        $stm -> execute();
+
+        return $stm -> fetch();
+    }
 }
