@@ -89,12 +89,12 @@ class LoginController extends Controller
                     $sesion = new Session();
                     $sesion->loginStar($data);
                     //Enviamos al usuario a su vista inicial
-                    // header('location:' . URL . '/admin');
                     $data = [
                         "titulo" => "Login",
                         "subtitulo" => "Formulario login",
                     ];
-                    $this->view('admin', $data, 'auth');
+                    header('location:' . URL . '/admin');
+                    // $this->view('admin', $data, 'auth');
                 }
             } else {
                 $data = [

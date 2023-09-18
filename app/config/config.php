@@ -1,5 +1,5 @@
 <?php
-define('URL', 'http://citas.test');
+define('URL', 'http://localhost/citas');
 define('NAME', 'adso');
 
 define('KEY', 'mimamamemima');

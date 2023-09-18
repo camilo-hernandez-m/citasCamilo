@@ -61,13 +61,11 @@ class RolesController extends Controller{
 
                 $data = [
                     "titulo" => "Roles",
-                    "subtitulo" => "Lista de roles",
-                    "roles" => $roles
+                    "subtitulo" => "Lista de roles"
                 ];
 
-                $roles = $this -> model ->getRoles();
-                
-                $this->view('rol/index', $data, 'auth');
+                header('location:' . URL . '/roles');
+                // $this->view('rol/index', $data, 'auth');
 
             }else{
                 $data = [
@@ -95,8 +93,47 @@ class RolesController extends Controller{
         $this -> view("rol/update", $data, "auth");
     }
 
-    function update(){
-        
+    function update($id){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+            $errores = [];
+            $roles = $_POST['rol_name'];
+
+            if($roles == ""){
+                $errores["rol_error"] = "el rol esta vacio";
+            }
+            if(strlen( $roles) > 50 ){
+                $errores["rol_error"] = "el rol supera el limite de caracteres";
+            }
+            
+            if(empty($errores)){
+
+                $valores = [
+                    "name_role" => $roles,
+                    "id_role" => $id
+                ];
+
+                $this -> model -> redit($valores);
+
+                $data = [
+                    "titulo" => "Roles",
+                    "subtitulo" => "Lista de roles"
+                ];
+
+                header('location:' . URL . '/roles');
+                // $this->view('rol/index', $data, 'auth');
+
+            }else{
+                $data = [
+                    "titulo" => "Roles",
+                    "subtitulo" => "Creacion de roles",
+                ];
+    
+                $this -> view("rol/create", $data, "auth");
+            }
+        }else{
+
+        }
         
     }
 

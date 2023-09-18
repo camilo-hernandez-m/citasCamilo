@@ -30,7 +30,9 @@ class UserModel extends Model
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":correo", $correo);
         $stm->execute();
-        return $stm->fetch();
+        $data = $stm->fetch();
+        $this->connection = $this->db-> closConnection();
+        return  $data;
     }
 
     function getUsuario($usuario){
@@ -39,7 +41,9 @@ class UserModel extends Model
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":user", $usuario);
         $stm->execute();
-        return $stm->fetch();
+        $data = $stm->fetch();
+        $this->connection = $this->db-> closConnection();
+        return  $data;
     }
 
     function updatePassword($id, $password)
@@ -52,6 +56,7 @@ class UserModel extends Model
         $stm->bindValue(":clave", $password);
         $stm->bindValue(":id", $id);
         return $stm->execute();
+        $this->connection = $this->db-> closConnection();
     }
 
     function validate($user, $password)
