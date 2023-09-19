@@ -82,7 +82,8 @@ class RolesController extends Controller{
 
     function editar($id){
 
-        $save = $this -> model -> getRole($id);
+        $valores = ['id_role ' => $id];
+        $save = $this -> model -> getRole($valores);
 
         $data = [
             "titulo" => "Roles",

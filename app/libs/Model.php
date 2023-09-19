@@ -71,8 +71,12 @@ class Model
     }
 
     public function getDataById($param, $tabla = "" ){
+        
+        foreach($param as $key => $valor){
 
-        $sql = "SELECT * FROM $tabla WHERE id_role = $param";
+            $sql = "SELECT * FROM $tabla WHERE $key = $valor";
+
+        }
 
         $stm = $this -> connection -> prepare($sql);
 

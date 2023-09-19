@@ -3,12 +3,14 @@
 namespace Adso\controllers;
 
 use Adso\libs\Controller;
+use Adso\libs\Session;
+use Adso\model\ImagenModel;
 
 class ProfileController extends Controller{
     protected $model;
 
     function __construct(){
-        // $this->model = $this->model("Role");
+        $this->model = $this->model("Profile");
     }
 
     function index(){
@@ -24,6 +26,7 @@ class ProfileController extends Controller{
     }
 
     function update(){
+        
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             $errores = [];
@@ -52,7 +55,29 @@ class ProfileController extends Controller{
                 chmod( $url_insert, 0777);
 
                 if (move_uploaded_file($url_temp, $url_insert.$file)) {
+
+                    $sesion = new Session();
+        
+                    $id_user = $sesion->getUser()['id_user'];
+            
+                    $valores = ['user_id ' => $id_user];
+            
+                    $data = $this->model->getProfile($valores);
+
+                    $valores = [ 
+                        "name" => $file,
+                        "descripcion" => $url_insert.$file,
+                        "id_profile_fk" => $data['id_profiles']
+                    ];
+
+                    $model = new ImagenModel();
+
+                    
+                    $model -> storage($valores);
+                    
                     header('location:' . URL . '/admin');
+
+
                 } else {
                     $errores['error_load'] = "el archivo no pudo se guardado";
 
