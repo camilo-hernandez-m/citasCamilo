@@ -1,6 +1,6 @@
 <div class="container">
     <form class="login" action="<?= URL ?>/login/validate" method="POST" id="form">
-        <h1 class="login__title">Ingresar al sistema</h1>
+        <h1 class="login__title">Ingresar all sistema</h1>
         <div>
             <input type="text" name="user" id ="user" class="login__input" placeholder="Usuario" value="<?= isset($data['data']['user']) ? $data['data']['user'] : ''  ?>">
             <?php
