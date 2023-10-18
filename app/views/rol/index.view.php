@@ -25,7 +25,7 @@
                     <td><?= DateHelper::shortDate($value['created_at']) ?></td>
                     <td><?= DateHelper::shortDate($value['updated_at']) ?></td>
                     <td>
-                        <a href="<?= URL ?>/roles/editar/<?= $value['id_role'] ?>">editar</a>
+                        <a href="<?= URL ?>/roles/editar/<?= Helper::encrypt($value['id_role']) ?>">editar</a>
                     </td>
                 </tr>
                 <?php

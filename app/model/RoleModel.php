@@ -33,4 +33,9 @@ class RoleModel extends Model{
         $this -> connection = $this -> db -> closConnection();
         return $data;
     }
+    function updateRole($id, $roles){
+        $this -> connection = $this -> db -> getConnection();        
+        $data = $this -> update($id, $this -> tabla, $roles);
+        $this -> connection = $this -> db -> closConnection();
+    }
 }

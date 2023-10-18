@@ -3,6 +3,7 @@
 namespace Adso\controllers;
 
 use Adso\libs\Controller;
+use Adso\libs\Helper;
 
 class PermissonController extends Controller
 {
@@ -77,11 +78,13 @@ class PermissonController extends Controller
     function editar($id)
     {
 
-        $param = $this -> model -> getId($id);
+        $param = $this -> model -> getId(Helper::decrypt($id));
 
         $data = [
             "titulo" => "permisos",
-            "subtitulo" => "editar un permisos"
+            "subtitulo" => "editar un permisos",
+            "data" => $param,
+            "id" => $id
         ];
 
         $this->view('permisson/update', $data, 'auth');
