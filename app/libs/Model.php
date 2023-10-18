@@ -13,6 +13,7 @@ class Model
     {
         // Crear una nueva instancia de la clase Database
         $this->db = new Database();
+        $this->connection   = $this->db->getConnection();
     }
 
     /**
@@ -71,12 +72,8 @@ class Model
     }
 
     public function getDataById($param, $tabla = "" ){
-        
-        foreach($param as $key => $valor){
 
-            $sql = "SELECT * FROM $tabla WHERE $key = $valor";
-
-        }
+        $sql = "SELECT * FROM $tabla WHERE id_role = $param";
 
         $stm = $this -> connection -> prepare($sql);
 
@@ -85,40 +82,46 @@ class Model
         return $stm -> fetch();
     }
 
-    public function update($tabla = "", $columnas = []){
+    public function update($id, $tabla = "", $columnas = [] ){
+
         $columns = "";
         $params = "";
-        $idkey = array_pop($columnas);
-        print_r($idkey);
-        // // $idkey = array_keys($id);
-        // // $idvalue = array_values($id);
-        die();
 
-        // // Recorrer el array asociativo de columnas y valores
-        // foreach ($columnas as $key => $value) {
-        //     // Agregar el nombre de la columna a la cadena de columnas
-        //     $columns .= $key . ",";
+        foreach ($columnas as $key => $value) {
+            // Agregar el nombre de la columna a la cadena de columnas
+            $columns .= $key . ",";
+            print_r($columns);
 
-        //     // Agregar el marcador de parámetro a la cadena de parámetros
-        //     $params .= ":" . $key . ",";
-        // }
-
-        // // Eliminar la última coma de las cadenas de columnas y parámetros
-        // $columns = rtrim($columns, ',');
-        // $params = rtrim($params, ',');
-
-        $sql = "UPDATE `$tabla` SET $columns = '$params' WHERE $array_keys = $idvalue;";
-
-        // $stm = $this->connection->prepare($sql);
-
-        // foreach ($columnas as $key => $value) {
-        //     $stm->bindValue(":" . $key, $value);
-        // }
-
-        // if ($stm->execute()) {
+            // Agregar el marcador de parámetro a la cadena de parámetros
+            $params .= ":" . $key . ",";
            
-        // } else {
-        //     return $this->connection->errorInfo();
-        // }
+        }
+
+        // Eliminar la última coma de las cadenas de columnas y parámetros
+        $columns = rtrim($columns, ',');
+        $params = rtrim($params, ',');
+
+        // Construir la consulta SQL de inserción utilizando las cadenas formadas
+        $sql = "UPDATE $tabla SET $columns = $params WHERE id_role = $id ";
+
+        // Preparar la consulta SQL
+        $stm = $this->connection->prepare($sql);
+        // Asignar valores a los parámetros utilizando enlaces de parámetros
+        foreach ($columnas as $key => $value) {
+            $stm->bindValue(":" . $key, $value);
+        }
+        // Ejecutar la consulta preparada
+
+        print_r($stm);
+        // die();
+        
+        if ($stm->execute()) {
+           
+            return $this->connection->lastInsertId();
+           
+        } else {
+            return $this->connection->errorInfo();
+        }
     }
+
 }

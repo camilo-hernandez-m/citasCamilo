@@ -59,13 +59,7 @@ class RolesController extends Controller{
 
                 $this -> model -> storage($valores);
 
-                $data = [
-                    "titulo" => "Roles",
-                    "subtitulo" => "Lista de roles"
-                ];
-
-                header('location:' . URL . '/roles');
-                // $this->view('rol/index', $data, 'auth');
+                header("Location: ".URL."/roles");
 
             }else{
                 $data = [
@@ -82,8 +76,7 @@ class RolesController extends Controller{
 
     function editar($id){
 
-        $valores = ['id_role ' => $id];
-        $save = $this -> model -> getRole($valores);
+        $save = $this -> model -> getRole($id);
 
         $data = [
             "titulo" => "Roles",
@@ -94,47 +87,8 @@ class RolesController extends Controller{
         $this -> view("rol/update", $data, "auth");
     }
 
-    function update($id){
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-            $errores = [];
-            $roles = $_POST['rol_name'];
-
-            if($roles == ""){
-                $errores["rol_error"] = "el rol esta vacio";
-            }
-            if(strlen( $roles) > 50 ){
-                $errores["rol_error"] = "el rol supera el limite de caracteres";
-            }
-            
-            if(empty($errores)){
-
-                $valores = [
-                    "name_role" => $roles,
-                    "id_role" => $id
-                ];
-
-                $this -> model -> redit($valores);
-
-                $data = [
-                    "titulo" => "Roles",
-                    "subtitulo" => "Lista de roles"
-                ];
-
-                header('location:' . URL . '/roles');
-                // $this->view('rol/index', $data, 'auth');
-
-            }else{
-                $data = [
-                    "titulo" => "Roles",
-                    "subtitulo" => "Creacion de roles",
-                ];
-    
-                $this -> view("rol/create", $data, "auth");
-            }
-        }else{
-
-        }
+    function update(){
+        
         
     }
 

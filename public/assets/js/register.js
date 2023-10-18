@@ -1,5 +1,5 @@
 //Url base del proyecto
-const url = "http://citas.test"
+const url = "http://localhost/citas"
 //Atributos del formulario
 const email = document.getElementById('email')
 let usuario = document.getElementById('first_name');
@@ -40,7 +40,7 @@ const validacion = async (e) => {
                 })
                 //Respuesta servidor
                 let json = await ajax.json();
-                console.log(json);
+                
                 //Validamos el codigo de respuesta
                 if (json.data) {
                     Swal.fire({
@@ -49,6 +49,7 @@ const validacion = async (e) => {
                         icon: 'error',
                         confirmButtonText: 'Cerrar'
                       })
+                    //   btn.style.
                 }else{
 
                 }

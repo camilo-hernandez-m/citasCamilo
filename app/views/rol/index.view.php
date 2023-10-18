@@ -6,7 +6,6 @@
         <table border="1">
             <thead>
                 <tr>
-                    <th>id</th>
                     <th>Nombre</th>
                     <th>Fecha de creado</th>
                     <th>Fecha de modificacion</th>
@@ -16,8 +15,8 @@
             <tbody>
                 <?php
 
-                            use Adso\libs\DateHelper;
-                            use Adso\libs\Helper;
+                use Adso\libs\DateHelper;
+                use Adso\libs\Helper;
 
                 foreach($data['roles'] as $value){
                 ?>

@@ -4,7 +4,6 @@ namespace Adso\model;
 
 use Adso\libs\Database;
 use Adso\libs\Model;
-
 class UserModel extends Model
 {
 
@@ -30,20 +29,17 @@ class UserModel extends Model
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":correo", $correo);
         $stm->execute();
-        $data = $stm->fetch();
-        $this->connection = $this->db-> closConnection();
-        return  $data;
+        return $stm->fetch();
     }
 
-    function getUsuario($usuario){
+    function getUsuario($usuario)
+    {
         $this->connection = $this->db->getConnection();
         $sql = "SELECT user_name  FROM users WHERE user_name  = :user";
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(":user", $usuario);
         $stm->execute();
-        $data = $stm->fetch();
-        $this->connection = $this->db-> closConnection();
-        return  $data;
+        return $stm->fetch();
     }
 
     function updatePassword($id, $password)
@@ -56,7 +52,6 @@ class UserModel extends Model
         $stm->bindValue(":clave", $password);
         $stm->bindValue(":id", $id);
         return $stm->execute();
-        $this->connection = $this->db-> closConnection();
     }
 
     function validate($user, $password)
@@ -72,7 +67,38 @@ class UserModel extends Model
         return $stm->fetch();
     }
 
-    function validateEmail ($email) {
+    public function chekear($id_user)
+    {
+        $sql = "SELECT token FROM users WHERE id_user = :id_user";
+        // var_dump($this->connection->prepare($sql));
+        // die();
+        $stm = $this->connection->prepare($sql);
+        $stm->bindValue(':id_user', $id_user);
+        $stm->execute();
+
+        $result = $stm->fetch();
+         return $result;
+    }
+
+    function createtime($id_user)
+    {
+        $sql = "UPDATE users SET token = NOW() WHERE id_user = :id_user";
+        $stm = $this->connection->prepare($sql);
+        $stm->bindValue(':id_user', $id_user);
+        $stm->execute();
+    }
+    
+    function backnull($id_user)
+    {
+        $sql = "UPDATE users SET passwordtime = NULL WHERE id_user = :id_user";
+        $stm = $this->connection->prepare($sql);
+        $stm->bindValue(':id_user', $id_user);
+
+        $stm->execute();
+    }
+
+    function validateEmail($email)
+    {
         $sql = "SELECT id_user, email FROM users WHERE email = :correo";
         $connection = $this->db->getConnection();
         $stm = $connection->prepare($sql);
@@ -81,14 +107,15 @@ class UserModel extends Model
         return $stm->fetch();
     }
 
-    function storage($valores, $comm = ""){
-        if($comm !=""){
+    function storage($valores, $comm = "")
+    {
+        if ($comm != "") {
             $this->connection = $comm;
-        }else{
+        } else {
             $this->connection = $this->db->getConnection();
         }
-        
+        // $this->connection = $this->db->closConnection();
         return $this->insert("users", $valores);
-        $this->connection = $this->db->closConnection();
     }
+    
 }

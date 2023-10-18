@@ -12,9 +12,12 @@ class Transacciones {
     protected $model;
     protected $model2;
 
+    // protected $connection;
+
     function __construct()
     {
         $this->db = new Database();
+        // $this->connection   = $this->db->getConnection();
     }
 
     function model($model = "")
@@ -26,9 +29,11 @@ class Transacciones {
 
     public function trsRegistro($valores) {
         
+        
         try {
             $connection = $this->db->getConnection();
-
+            // print_r($connection);
+            // die();
             $connection->beginTransaction();
             
             $id = 0;

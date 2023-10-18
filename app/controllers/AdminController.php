@@ -3,27 +3,27 @@
 namespace Adso\controllers;
 
 use Adso\Libs\controller;
-use Adso\libs\Session;
+use Adso\libs\Permisson;
 
 class AdminController extends Controller
 {
     function __construct()
     {
-        // echo "ffffffffffff";
-        // die();
-    }
+        // $sesion = new Permisson();
 
-    function index(){
-        // $sesion = new Session();
-        // if($sesion->getLogin()){
-            $data = [
-                "titulo"    => "Home",
-                "subtitulo" => "Saludo del sistema",
-                "menu" => true
-            ];
-            $this->view("admin", $data, 'app');
+        // if ($sesion -> ifpermisson(constant('ROLES')['admin'])) {
+            
         // }else{
-        //     header('location:'.URL);
+        //     header('location:' . URL . '/login');
         // }
+    }
+    function index()
+    {
+        $data = [
+            "titulo"    => "Home",
+            "subtitulo" => "Saludo del sistema",
+            "menu" => true
+        ];
+        $this->view("admin", $data, 'app');
     }
 }

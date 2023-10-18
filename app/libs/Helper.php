@@ -13,7 +13,7 @@ class  Helper
         $key = base64_decode(MASTER);
         $ib = openssl_random_pseudo_bytes(openssl_cipher_iv_length("aes-256-cbc"));
         $string = openssl_encrypt($data, "aes-256-cbc", $key, 0, $ib);
-        return base64_encode($string . "::" . $ib);
+        return base64_encode($string . "::" . base64_encode($ib));
     }
 
     public static function decrypt($data)
@@ -21,7 +21,7 @@ class  Helper
         $key = base64_decode(MASTER);
         $ib = openssl_random_pseudo_bytes(openssl_cipher_iv_length("aes-256-cbc"));
         list($string, $ib) = array_pad(explode("::", base64_decode($data), 2), 2, null);
-        return openssl_decrypt($string, "aes-256-cbc", $key, 0, $ib);
+        return openssl_decrypt($string, "aes-256-cbc", $key, 0, base64_decode($ib));
     }
 
     public static function encrypt2($data)
