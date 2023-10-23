@@ -21,10 +21,11 @@ class RolesController extends Controller{
         $data = [
             "titulo" => "Roles",
             "subtitulo" => "Lista de roles",
+            "menu" => true,
             "roles" => $roles
         ];
         
-        $this->view('rol/index', $data, 'auth');
+        $this->view('rol/index', $data, 'app');
     }
 
     function create(){
@@ -32,9 +33,10 @@ class RolesController extends Controller{
             $data = [
                 "titulo" => "Roles",
                 "subtitulo" => "Creacion de roles",
+                "menu" => true
             ];
 
-            $this -> view("rol/create", $data, "auth");
+            $this -> view("rol/create", $data, "app");
         
     }
 
@@ -66,9 +68,11 @@ class RolesController extends Controller{
                 $data = [
                     "titulo" => "Roles",
                     "subtitulo" => "Creacion de roles",
+                    "menu" => true,
+                    "errors" => $errores
                 ];
     
-                $this -> view("rol/create", $data, "auth");
+                $this -> view("rol/create", $data, "app");
             }
         }else{
 
@@ -77,16 +81,19 @@ class RolesController extends Controller{
 
     function editar($id){
 
-        $save = $this -> model -> getRole(Helper::decrypt($id));
+
+
+        $save = $this -> model -> getRole(["id_role"=> Helper::decrypt($id)]);
 
         $data = [
             "titulo" => "Roles",
             "subtitulo" => "Actualizacion de roles",
+            "menu" => true,
             "data" => $save,
             "id" => $id
         ];
 
-        $this -> view("rol/update", $data, "auth");
+        $this -> view("rol/update", $data, "app");
     }
 
     function update($id){
@@ -106,10 +113,11 @@ class RolesController extends Controller{
             if(empty($errores)){
 
                 $valores = [
-                    "name_role" => $roles 
+                    "name_role" => $roles,
+                    "id_role"=> Helper::decrypt($id)
                 ];
 
-                $this -> model -> updateRole(Helper::decrypt($id),$valores);
+                $this -> model -> updateRole($valores);
 
                 header("location:".URL."/roles");
 
@@ -117,9 +125,11 @@ class RolesController extends Controller{
                 $data = [
                     "titulo" => "Roles",
                     "subtitulo" => "Creacion de roles",
+                    "menu" => true,
+                    "errors" => $errores
                 ];
     
-                $this -> view("rol/create", $data, "auth");
+                $this -> view("rol/create", $data, "app");
             }
         }else{
 

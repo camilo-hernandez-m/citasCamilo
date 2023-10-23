@@ -71,26 +71,32 @@ class Model
         return $stm -> fetchAll();
     }
 
-    public function getDataById($param, $tabla = "" ){
-
-        $sql = "SELECT * FROM $tabla WHERE id_role = $param";
+    public function getDataById( $tabla = "", $columnas = [] ){
+        $columns = "";
+        $params = "";
+        foreach ($columnas as $key => $value) {
+            $columns = $key;
+            $params = $value;
+        }
+        $sql = "SELECT * FROM $tabla WHERE $columns = $params";
 
         $stm = $this -> connection -> prepare($sql);
-
+        
         $stm -> execute();
 
         return $stm -> fetch();
     }
 
-    public function update($id, $tabla = "", $columnas = [] ){
+    public function update($tabla = "", $columnas = [] ){
 
         $columns = "";
         $params = "";
+        $clave = array_key_last($columnas);
+        $valor = array_pop($columnas);
 
         foreach ($columnas as $key => $value) {
             // Agregar el nombre de la columna a la cadena de columnas
             $columns .= $key . ",";
-            print_r($columns);
 
             // Agregar el marcador de parámetro a la cadena de parámetros
             $params .= ":" . $key . ",";
@@ -101,8 +107,9 @@ class Model
         $columns = rtrim($columns, ',');
         $params = rtrim($params, ',');
 
+
         // Construir la consulta SQL de inserción utilizando las cadenas formadas
-        $sql = "UPDATE $tabla SET $columns = $params WHERE id_role = $id ";
+        $sql = "UPDATE $tabla SET $columns = $params WHERE $clave = $valor";
 
         // Preparar la consulta SQL
         $stm = $this->connection->prepare($sql);

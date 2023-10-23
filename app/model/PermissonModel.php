@@ -23,8 +23,9 @@ class PermissonModel extends Model
 
     function getId($permisos){
         $this -> connection = $this -> db -> getConnection();
-        $data = $this -> getDataById($permisos, $this -> tabla);
+        $data = $this -> getDataById( $this -> tabla, $permisos);
         $this -> connection = $this -> db -> closConnection();
+        return $data;
     }
 
     function storage($permisos){
@@ -32,4 +33,11 @@ class PermissonModel extends Model
         $data = $this -> insert($this -> tabla, $permisos);
         $this -> connection = $this -> db -> closConnection();
     }
+    function updatePermisson($permisos){
+        $this -> connection = $this -> db -> getConnection();
+        $data = $this -> update( $this -> tabla, $permisos);
+        $this -> connection = $this -> db -> closConnection();
+        return $data;
+    }
+
 }

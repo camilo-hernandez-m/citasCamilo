@@ -23,20 +23,22 @@ class PermissonController extends Controller
         $data = [
             "titulo" => "permisos",
             "subtitulo" => "Lista de permisos",
+            "menu" => true,
             "permisos" => $permisos
         ];
 
-        $this->view('permisson/index', $data, 'auth');
+        $this->view('permisson/index', $data, 'app');
     }
 
     function create()
     {
         $data = [
             "titulo" => "permisos",
-            "subtitulo" => "Crear un permisos"
+            "subtitulo" => "Crear un permisos",
+            "menu" => true
         ];
 
-        $this->view('permisson/create', $data, 'auth');
+        $this->view('permisson/create', $data, 'app');
     }
 
     function storage()
@@ -67,10 +69,11 @@ class PermissonController extends Controller
                 $data = [
                     "titulo" => "permisos",
                     "subtitulo" => "Crear un permisos",
+                    "menu" => true,
                     "errors" => $errors
                 ];
 
-                $this->view('permisson/create', $data, 'auth');
+                $this->view('permisson/create', $data, 'app');
             }
         }
     }
@@ -78,15 +81,58 @@ class PermissonController extends Controller
     function editar($id)
     {
 
-        $param = $this -> model -> getId(Helper::decrypt($id));
+        $param = $this -> model -> getId(["id_permission" => Helper::decrypt($id)]);
+        
+        
 
         $data = [
             "titulo" => "permisos",
             "subtitulo" => "editar un permisos",
+            "menu" => true,
             "data" => $param,
             "id" => $id
         ];
 
-        $this->view('permisson/update', $data, 'auth');
+        $this->view('permisson/update', $data, 'app');
+    }
+    function update($id){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                        
+            $errores = [];
+            $roles = $_POST['per_name'];            
+
+            if($roles == ""){
+                $errores["per_error"] = "el rol esta vacio";
+            }
+            if(strlen( $roles) > 50 ){
+                $errores["per_error"] = "el rol supera el limite de caracteres";
+            }
+            
+            if(empty($errores)){
+
+                $valores = [
+                    "name_permisson" => $roles,
+                    "id_permission" => Helper::decrypt($id)
+                ];
+
+                $this -> model -> updatePermisson($valores);
+
+
+                header("location:".URL."/permisson");
+
+            }else{
+                $data = [
+                    "titulo" => "Roles",
+                    "subtitulo" => "Creacion de roles",
+                    "menu" => true,
+                    "errors" => $errores
+                ];
+    
+                $this -> view("permisson/update", $data, "app");
+            }
+        }else{
+
+        }
+        
     }
 }

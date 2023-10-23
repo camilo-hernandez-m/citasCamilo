@@ -9,13 +9,7 @@ class AdminController extends Controller
 {
     function __construct()
     {
-        // $sesion = new Permisson();
 
-        // if ($sesion -> ifpermisson(constant('ROLES')['admin'])) {
-            
-        // }else{
-        //     header('location:' . URL . '/login');
-        // }
     }
     function index()
     {

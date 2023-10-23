@@ -29,13 +29,13 @@ class RoleModel extends Model{
 
     function getRole($id){
         $this -> connection = $this -> db -> getConnection();
-        $data = $this -> getDataById($id, $this -> tabla);
+        $data = $this -> getDataById($this -> tabla, $id);
         $this -> connection = $this -> db -> closConnection();
         return $data;
     }
-    function updateRole($id, $roles){
+    function updateRole($roles){
         $this -> connection = $this -> db -> getConnection();        
-        $data = $this -> update($id, $this -> tabla, $roles);
+        $data = $this -> update($this -> tabla, $roles);
         $this -> connection = $this -> db -> closConnection();
     }
 }
