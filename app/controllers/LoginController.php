@@ -6,6 +6,7 @@ use Adso\Libs\controller;
 use Adso\libs\Helper;
 use Adso\libs\Session;
 use Adso\libs\Email;
+use Adso\libs\DateHelper;
 
 class LoginController extends Controller
 {
@@ -14,6 +15,8 @@ class LoginController extends Controller
     function __construct()
     {
         $this->model = $this->model("User");
+        
+
     }
 
     function index()
@@ -84,17 +87,15 @@ class LoginController extends Controller
                         "errors" => $errorres
                     ];
                     $this->view('login', $data, 'auth');
+
                 } else {
                     //Tomamos el resultado de la consulta
                     $sesion = new Session();
                     $sesion->loginStar($data);
-                    //Enviamos al usuario a su vista inicial
-                    // header('location:' . URL . '/admin');
-                    $data = [
-                        "titulo" => "Login",
-                        "subtitulo" => "Formulario login",
-                    ];
-                    $this->view('admin', $data, 'auth');
+
+                    header('Location: '.URL.'/admin');
+
+                    
                 }
             } else {
                 $data = [
@@ -119,6 +120,25 @@ class LoginController extends Controller
         $this->view('forget', $data, 'auth');
     }
 
+    function timestamp($email, $id_user, $userModel)
+    {
+        $correo = new Email();
+
+        $correo->sendEmail($email, Helper::encrypt($id_user));
+        
+        // $data = $userModel->chekear($id_user);
+
+        $userModel->createtime($id_user);
+
+        // if ($data == null){
+        //     $userModel->createtime($id_user);
+        // } else {
+        //     $userModel->backnull($id_user);
+        // }
+    }
+
+    
+
     function sendEmail()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -136,9 +156,16 @@ class LoginController extends Controller
 
                 if (!empty($data)) {
                     $email = $data['email'];
-                    $id = Helper::encrypt($data['id_user']);
-                    $correo = new Email();
-                    $correo->sendEmail($email, $id);
+                    $this->timestamp($email, $data['id_user'], $this->model);
+                    // $id = Helper::encrypt($data['id_user']);
+
+                    // $correo = new Email();
+                    
+                    $data = $this->model->validateEmail($email);
+                    //Enviamos al usuario a su vista de correo enviado
+                    // header('location:'.URL);
+                    // $this->view('email_send', $data, 'auth');
+                    header('location:'.URL."/login/emailSend");
                 } else {
                     $errorres['email_dontexist'] =  "El correo no existe";
                     $data = [
@@ -162,14 +189,32 @@ class LoginController extends Controller
         }
     }
 
+    function emailSend () {
+        $data = [
+            "titulo" => "Login",
+            "subtitulo" => "Formulario login",
+        ];
+
+        $this->view('email_send', $data, 'auth');
+    }
+
+    function compare($id_user)
+    {
+        $fecha = $this->model->chekear($id_user);
+
+        $data = DateHelper::timestamp($fecha);
+
+        return $data;
+    }
+
     function updatepassword($id = "")
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errorres = array();
-            $id                 = $_POST['id'] ?? '';
-            $id = Helper::decrypt($id);
+            $id = $_POST['id'] ?? '';
             $password           = $_POST['password'] ?? '';
             $confirm_password   = $_POST['confirm_password'] ??  '';
+            
             //Validamos
             if ($password == "") {
                 $errorres['password_error'] =  "La contraseña es requerida";
@@ -180,8 +225,13 @@ class LoginController extends Controller
             if ($password  != $confirm_password) {
                 $errorres['password_error'] =  "La confirmación no coindice con su contraseña";
             }
+            if ($this->compare(Helper::decrypt($id)) > 180){
+                $errorres['expire_error'] =  "El link de recuperacion ha expirado";
+            }  
+            
+            // $data = $userModel->chekear($id_user);
 
-            if (!empty($errorres)) {
+            if (!empty($errorres)) {  
                 $data = [
                     "titulo" => "Modificar contraseña",
                     "subtitulo" => "Formulario modificar contraseña",
@@ -190,9 +240,20 @@ class LoginController extends Controller
                 ];
                 $this->view('update', $data, 'auth');
             } else {
+                $id = Helper::decrypt($id);
                 //Modificamos la contraseña
                 if ($this->model->updatePassword($id, $password)) {
-                    echo "Contraseña modificada";
+
+                    $sesion = new Session();
+                    $sesion->loginStar($id);
+                    //Enviamos al usuario a su vista inicial
+                    // header('location:' . URL . '/admin');
+                    $data = [
+                        "titulo" => "Login",
+                        "subtitulo" => "Formulario login",
+                    ];
+                    // $this->view('admin', $data, 'auth');
+                    header("Location:".URL."/admin");
                 }
             }
         } else {

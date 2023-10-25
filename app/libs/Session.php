@@ -44,4 +44,6 @@ class Session
     {
         return $this->user;
     }
+
+    
 }
