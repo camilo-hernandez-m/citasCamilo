@@ -13,7 +13,6 @@ class RoleModel extends Model
     {
         parent::__construct();
     }
-
     function getRoles()
     {
         $this->connection = $this->db->getConnection();

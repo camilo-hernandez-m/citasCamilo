@@ -11,9 +11,7 @@
 </head>
 
 <body>
-
     <header>
-
         <div class="header">
             <div class="header__logo">
                 <a href="<?= URL ?>" class="header__link">

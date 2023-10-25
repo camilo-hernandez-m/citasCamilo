@@ -70,14 +70,11 @@ class UserModel extends Model
     public function chekear($id_user)
     {
         $sql = "SELECT token FROM users WHERE id_user = :id_user";
-        // var_dump($this->connection->prepare($sql));
-        // die();
         $stm = $this->connection->prepare($sql);
         $stm->bindValue(':id_user', $id_user);
         $stm->execute();
-
         $result = $stm->fetch();
-         return $result;
+        return $result;
     }
 
     function createtime($id_user)

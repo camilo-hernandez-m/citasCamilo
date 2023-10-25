@@ -15,7 +15,6 @@ class Model
         $this->db = new Database();
         $this->connection   = $this->db->getConnection();
     }
-
     /**
      * Método para insertar registros en la base de datos
      */
@@ -85,6 +84,22 @@ class Model
         $stm -> execute();
 
         return $stm -> fetch();
+    }
+
+    public function getRowsById( $tabla = "", $columnas = [] ){
+        $columns = "";
+        $params = "";
+        foreach ($columnas as $key => $value) {
+            $columns = $key;
+            $params = $value;
+        }
+        $sql = "SELECT * FROM $tabla WHERE $columns = $params";
+
+        $stm = $this -> connection -> prepare($sql);
+        
+        $stm -> execute();
+
+        return $stm -> fetchAll();
     }
 
     public function update($tabla = "", $columnas = [] ){

@@ -1,5 +1,5 @@
 //Url base del proyecto
-const url = "http://localhost/citas"
+const url = "http://citas.test"
 //Atributos del formulario
 const email = document.getElementById('email')
 let usuario = document.getElementById('first_name');
@@ -58,7 +58,12 @@ const validacion = async (e) => {
             } finally {
             }
         } else {
-            alert("Por favor, escribe un correo electrónico válido");
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'El campo correo electronico esta vacio',
+                icon: 'warning',
+                confirmButtonText: 'Cerrar'
+              })
         }
     }
 }
@@ -99,7 +104,12 @@ const validacion2 = async (e) => {
         } finally {
         }
     } else {
-        alert("Por favor, escribe un correo electrónico válido");
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'El campo nombre esta vacio',
+            icon: 'warning',
+            confirmButtonText: 'Cerrar'
+          })
     }
 }
 

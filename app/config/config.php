@@ -1,12 +1,12 @@
 <?php
-define('URL', 'http://localhost/ADSO/citas');
+define('URL', 'http://citas.test');
 define('NAME', 'ADSO');
 
 define('KEY', 'mimamamemima');
 define('MASTER', 'llaveparacodific');
 
 define('HOST', 'localhost');
-define('DB', 'sena_login');
+define('DB', 'admin_citas');
 define('USER', 'root');
 define('PASSWORD', '');
 define('CHARSET', 'utf8mb4');

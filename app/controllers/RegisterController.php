@@ -79,8 +79,6 @@ class RegisterController extends controller
             if ($this->model->getEmail($email)['email'] == $email) {
                 $errores['mail_duplicate'] =  "El correo ya existe";
             }
-            // print_r($this->model->getUsuario($name));
-            // die();
             if ($this->model->getUsuario($name)['user_name'] == $name) {
                 $errores['user_duplicate'] =  "El usuario ya existe";
             }
