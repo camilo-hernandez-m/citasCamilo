@@ -1,6 +1,6 @@
 <?php
-define('URL', 'http://localhost/citas');
-define('NAME', 'adso');
+define('URL', 'http://localhost/ADSO/citas');
+define('NAME', 'ADSO');
 
 define('KEY', 'mimamamemima');
 define('MASTER', 'llaveparacodific');

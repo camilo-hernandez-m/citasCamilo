@@ -135,4 +135,21 @@ class PermissonController extends Controller
         }
         
     }
+    function delete($id)
+    {
+                
+        $this->model->deletePermisson(["id_permission"=> Helper::decrypt($id)]);
+        //print_r($id);
+        //die($id);
+        // $data = [
+        //     "titulo" => "permisos",
+        //     "subtitulo" => "editar un permisos",
+        //     "menu" => true,            
+        //     "id" => $id
+        // ];
+        header("Location: " . URL . "/permisson");
+
+
+    //$this->view('permisson/update', $data, 'app');
+    }
 }

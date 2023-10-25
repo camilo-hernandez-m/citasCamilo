@@ -131,4 +131,22 @@ class Model
         }
     }
 
+    function delete($tabla = "", $columnas = []){
+        $columns = "";
+        $params = "";
+        foreach ($columnas as $key => $value) {
+            $columns = $key;
+            $params = $value;
+        }
+
+        $sql = "DELETE FROM $tabla WHERE $columns = $params";
+
+        $stm = $this -> connection -> prepare($sql);
+        
+        $stm -> execute();
+
+        return $stm -> fetch();
+
+    }
+
 }

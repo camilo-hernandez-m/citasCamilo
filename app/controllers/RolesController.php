@@ -48,10 +48,10 @@ class RolesController extends Controller{
             $roles = $_POST['rol_name'];
 
             if($roles == ""){
-                $errores["rol_error"] = "el rol esta vacio";
+                $errores["rol_error"] = "El rol esta vacio";
             }
             if(strlen( $roles) > 50 ){
-                $errores["rol_error"] = "el rol supera el limite de caracteres";
+                $errores["rol_error"] = "El rol supera el limite de caracteres";
             }
             
             if(empty($errores)){
@@ -80,9 +80,7 @@ class RolesController extends Controller{
     }
 
     function editar($id){
-
-
-
+        
         $save = $this -> model -> getRole(["id_role"=> Helper::decrypt($id)]);
 
         $data = [
@@ -104,10 +102,10 @@ class RolesController extends Controller{
             $roles = $_POST['rol_name'];            
 
             if($roles == ""){
-                $errores["rol_error"] = "el rol esta vacio";
+                $errores["rol_error"] = "El rol esta vacio";
             }
             if(strlen( $roles) > 50 ){
-                $errores["rol_error"] = "el rol supera el limite de caracteres";
+                $errores["rol_error"] = "El rol supera el limite de caracteres";
             }
             
             if(empty($errores)){
@@ -134,6 +132,22 @@ class RolesController extends Controller{
         }else{
 
         }
+        
+    }
+
+    function delete($id){
+
+            $this->model->deleteRole(["id_role"=> Helper::decrypt($id)]);
+            header("Location: " . URL . "/roles");
+
+
+            $data = [
+                "titulo" => "Roles",
+                "subtitulo" => "Eliminación de roles",
+                "menu" => true,
+                "id" => $id
+            ];
+            
         
     }
 

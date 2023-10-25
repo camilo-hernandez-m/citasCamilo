@@ -39,5 +39,11 @@ class PermissonModel extends Model
         $this -> connection = $this -> db -> closConnection();
         return $data;
     }
+    function deletePermisson($id)
+    {
+        $this->connection = $this->db->getConnection();
+        $data = $this->delete($this->tabla, $id);
+        $this->connection = $this->db->closConnection();
+    }
 
 }
