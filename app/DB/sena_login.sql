@@ -43,13 +43,8 @@ CREATE TABLE `images` (
 CREATE TABLE `permissions` (
   `id_permission` int(11) NOT NULL,
   `name_permisson` varchar(50) NOT NULL,
-<<<<<<< HEAD
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-=======
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
->>>>>>> 05cafe47058806b9743909d7cc0b67ba45347fa5
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -63,15 +58,9 @@ CREATE TABLE `profiles` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `phone` varchar(15) NOT NULL DEFAULT '000',
-<<<<<<< HEAD
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_id` int NOT NULL
-=======
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `user_id` int(11) NOT NULL
->>>>>>> 05cafe47058806b9743909d7cc0b67ba45347fa5
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -105,30 +94,9 @@ INSERT INTO `profiles` (`id_profiles`, `first_name`, `last_name`, `phone`, `crea
 CREATE TABLE `roles` (
   `id_role` int(11) NOT NULL,
   `name_role` varchar(50) NOT NULL,
-<<<<<<< HEAD
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-=======
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `roles`
---
-
-INSERT INTO `roles` (`id_role`, `name_role`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', '2023-09-18 15:40:24', '2023-09-18 10:40:24'),
-(2, 'User', '2023-10-09 19:16:43', '2023-10-09 14:16:43'),
-(3, 'nnn', '2023-10-09 19:17:29', '2023-10-09 14:17:29'),
-(4, 'nnn', '2023-10-18 13:07:40', '2023-10-18 08:07:40'),
-(5, 'nnn', '2023-10-18 13:31:45', '2023-10-18 08:31:45'),
-(6, 'nnn', '2023-10-18 13:41:35', '2023-10-18 08:41:35'),
-(7, 'usuario   333', '2023-10-18 14:23:27', '2023-10-18 11:01:52'),
-(8, 'et', '2023-10-18 14:28:29', '2023-10-18 09:28:29'),
-(9, 'et', '2023-10-18 14:29:41', '2023-10-18 09:29:41');
->>>>>>> 05cafe47058806b9743909d7cc0b67ba45347fa5
 
 -- --------------------------------------------------------
 
@@ -137,15 +105,9 @@ INSERT INTO `roles` (`id_role`, `name_role`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE `role_permisson` (
-<<<<<<< HEAD
-  `id_role_permisson` int NOT NULL,
-  `id_permisson_fk` int NOT NULL,
-  `id_role_fk` int NOT NULL
-=======
   `id_role_permisson` int(11) NOT NULL,
   `id_permisson_fk` int(11) NOT NULL,
   `id_role_fk` int(11) NOT NULL
->>>>>>> 05cafe47058806b9743909d7cc0b67ba45347fa5
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -159,16 +121,11 @@ CREATE TABLE `users` (
   `user_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-<<<<<<< HEAD
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-=======
   `id_role_fk` int(11) DEFAULT NULL,
   `id_image_fk` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `passwordTime` timestamp NULL DEFAULT NULL
->>>>>>> 05cafe47058806b9743909d7cc0b67ba45347fa5
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -302,9 +259,9 @@ ALTER TABLE `role_permisson`
 --
 -- Filtros para la tabla `users`
 --
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`id_role_fk`) REFERENCES `roles` (`id_role`);
-COMMIT;
+-- ALTER TABLE `users`
+--   ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`id_role_fk`) REFERENCES `roles` (`id_role`);
+-- COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
