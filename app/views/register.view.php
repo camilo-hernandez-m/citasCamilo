@@ -11,6 +11,14 @@
                 }
             }
             ?>
+            <?php
+            if (isset($data['errors'])) {
+                if (array_key_exists('user_duplicate', $data['errors'])) { ?>
+                    <span class="login__error"><?= $data['errors']['user_duplicate'] ?></span>
+            <?php
+                }
+            }
+            ?>
         </div>
         <div>
             <input type="text" class="login__input" name="last_name" id="last_name" placeholder="Apellidos">
@@ -29,6 +37,14 @@
             if (isset($data['errors'])) {
                 if (array_key_exists('mail_error', $data['errors'])) { ?>
                     <span class="login__error mail"><?= $data['errors']['mail_error'] ?></span>
+            <?php
+                }
+            }
+            ?>
+            <?php
+            if (isset($data['errors'])) {
+                if (array_key_exists('mail_duplicate', $data['errors'])) { ?>
+                    <span class="login__error mail"><?= $data['errors']['mail_duplicate'] ?></span>
             <?php
                 }
             }

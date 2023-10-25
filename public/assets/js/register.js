@@ -40,7 +40,7 @@ const validacion = async (e) => {
                 })
                 //Respuesta servidor
                 let json = await ajax.json();
-                console.log(json);
+                
                 //Validamos el codigo de respuesta
                 if (json.data) {
                     Swal.fire({
@@ -49,6 +49,7 @@ const validacion = async (e) => {
                         icon: 'error',
                         confirmButtonText: 'Cerrar'
                       })
+                    //   btn.style.
                 }else{
 
                 }
@@ -57,7 +58,12 @@ const validacion = async (e) => {
             } finally {
             }
         } else {
-            alert("Por favor, escribe un correo electrónico válido");
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'El campo correo electronico esta vacio',
+                icon: 'warning',
+                confirmButtonText: 'Cerrar'
+              })
         }
     }
 }
@@ -98,7 +104,12 @@ const validacion2 = async (e) => {
         } finally {
         }
     } else {
-        alert("Por favor, escribe un correo electrónico válido");
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'El campo nombre esta vacio',
+            icon: 'warning',
+            confirmButtonText: 'Cerrar'
+          })
     }
 }
 

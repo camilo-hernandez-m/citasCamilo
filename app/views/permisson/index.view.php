@@ -1,11 +1,11 @@
 <section class="content-table">
     <div class="table-header">
         <div class="tittle-table">
-            <h2>Roles</h2>
-            <button><a href="<?= URL ?>/roles/create">nuevo</a></button>
+            <h2>Permisos</h2>
+            <button><a href="<?= URL ?>/permisson/create">nuevo</a></button>
         </div>
         <div class="input_search">
-            <input type="search" placeholder="Buscar rol">
+            <input type="search" placeholder="Buscar permiso">
             <i class="bi bi-search"></i>
         </div>
     </div>
@@ -23,11 +23,11 @@
             use Adso\libs\DateHelper;
             use Adso\libs\Helper;
 
-            foreach ($data['roles'] as $value) {
+            foreach ($data['permisos'] as $value) {
                 ?>
                 <tr>
                     <td>
-                        <?= $value['name_role'] ?>
+                        <?= $value['name_permisson'] ?>
                     </td>
                     <td>
                         <?= DateHelper::shortDate($value['created_at']) ?>
@@ -36,9 +36,8 @@
                         <?= DateHelper::shortDate($value['updated_at']) ?>
                     </td>
                     <td>
-                    <button><a href="<?= URL ?>/roles/editar/<?= Helper::encrypt($value['id_role']) ?>">editar</a></button>
-                    <button><a href="<?= URL ?>/roles/delete/<?= Helper::encrypt($value['id_role']) ?>">eliminar</a></button>
-                    <button><a href="<?= URL ?>/roles/manage/<?= Helper::encrypt($value['id_role']) ?>">administrar</a></button>
+                    <button><a href="<?= URL ?>/permisson/editar/<?= Helper::encrypt($value['id_permission']) ?>">editar</a></button>
+                    <button><a href="<?= URL ?>/permisson/delete/<?= Helper::encrypt($value['id_permission']) ?>">eliminar</a></button>
                     </td>
                 </tr>
                 <?php
@@ -46,4 +45,5 @@
             ?>
         </tbody>
     </table>
+
 </section>
