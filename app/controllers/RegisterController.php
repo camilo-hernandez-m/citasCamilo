@@ -76,16 +76,14 @@ class RegisterController extends controller
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errores['mail_error'] =  "El correo no es valido";
             }
-            if ($this->model->getEmail($email)['email'] == $email) {
+            $correo = $this->model->getEmail($email);            
+            if (is_array($correo) && isset($correo) && $correo == $email) {
                 $errores['mail_duplicate'] =  "El correo ya existe";
-            }
-            // print_r($this->model->getUsuario($name));
-            // die();
-            if ($this->model->getUsuario($name)['user_name'] == $name) {
+            }       
+            $nombre = $this->model->getUsuario($name);
+            if (is_array($nombre) && isset($nombre) && $nombre == $name) {
                 $errores['user_duplicate'] =  "El usuario ya existe";
-            }
-            //Validar que el correo sea unico
-            //???
+            }         
 
             if (empty($errores)) {
 
@@ -93,7 +91,8 @@ class RegisterController extends controller
                     "user" => [
                         "user_name" => $name,
                         "email" => $email,
-                        "password" => Helper::encrypt2($pass)
+                        "password" => Helper::encrypt2($pass),
+                        "id_role_fk" => ROLES['user']
                     ],
                     "profile" =>[
                         "first_name" => $name,
@@ -104,6 +103,7 @@ class RegisterController extends controller
                 ];
 
                 $transaccion =  $this->servicio->trsRegistro($valores);
+                header("location:".URL."/user");
                 
             } else {
                 $data = [
