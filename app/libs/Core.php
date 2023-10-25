@@ -7,7 +7,7 @@ class Core
     /** 
     * Esta clase recibe las URL y se encarga de enrutar la solicitud al respectivo método del controlador en el que se va a trabajar.
     *
-    * Esta clase se contiene un constructor y un método llamado getUrl que contiene funciones propias de php que permite crear una estructura para recibir, mandar y trabajar las URL del proyecto.
+    * Esta clase se contiene un constructor y un método llamado getUrl que contiene funciones propias de php que permite crear una estructura para recibir y trabajar las URL del proyecto para así mandar al respectivo controlador que la solicitud de la URL quiere.
 
     * @access protected
     * @param string $controller nombre del controlador 
@@ -61,6 +61,8 @@ class Core
     {
         /** 
          * Método
+         * 
+         * Valida si existe un parámetro url en la URL de la solicitud para luego mediante la función rtrim eliminar los / del final de la cadena, luego con la función filter_var se eliminan los símbolos o elementos no válidos de la URL, luego con la función explode se divide LA URL en partes, finalmente se retorna la valiable $url.
          * 
          * @access public
          * @param string $url almacena la url
