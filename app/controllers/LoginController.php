@@ -11,7 +11,6 @@ use Adso\libs\DateHelper; // Importa la clase DateHelper del espacio de nombres 
 
 /**
  * @package controllers
- *
  * @author Jarminthon Enrique Rueda Larrota
  */
 class LoginController extends Controller
@@ -147,15 +146,6 @@ class LoginController extends Controller
                     $role = $data['id_role_fk'];
                     print_r($role);
 
-                    // function authorizationMiddleware($requiredRole, $requiredPermission)
-                    // {
-                    //     if (!usuarioTienePermiso($requiredRole, $requiredPermission)) {
-                    //         // Redirige o muestra un mensaje de error
-                    //         header('Location: /error.php');
-                    //         exit();
-                    //     }
-                    // }
-
                     header('Location: ' . URL . '/admin'); //Redireccionamiento de 
 
 
@@ -212,21 +202,29 @@ class LoginController extends Controller
 
 
 
+    /**
+     * Función para enviar correo electrónico y manejar la recuperación de contraseña.
+     *
+     * Esta función verifica si la solicitud es un método POST y realiza validaciones en el correo electrónico proporcionado.
+     * En caso de errores o éxito en la validación, redirige al usuario a las vistas correspondientes.
+     *
+     * @return void No retorna ningún valor.
+     */
     function sendEmail()
     {
-        // Verifica si la solicitud es un POST, es decir, si se ha enviado un formulario.
+        // Verifica si la solicitud es un método POST.
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errorres = array(); // Inicializa un arreglo para almacenar errores.
 
             // Obtiene el valor del campo 'email' desde el formulario, o una cadena vacía si no se proporciona.
             $email = $_POST['email'] ?? '';
 
-            // Comprueba si el campo de correo electrónico está vacío.
+            // Comprueba si el campo de correo electrónico está vacío y registra el error correspondiente si lo está.
             if ($email == "") {
                 $errorres['email_empty'] = "El correo es requerido";
             }
 
-            // Comprueba si el correo electrónico proporcionado tiene un formato válido.
+            // Comprueba si el correo electrónico proporcionado tiene un formato válido y registra el error correspondiente si no lo tiene.
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errorres['email_error'] = "El correo no es válido";
             }
@@ -236,7 +234,7 @@ class LoginController extends Controller
                 // Valida el correo electrónico en el modelo y obtiene datos relacionados.
                 $data = $this->model->validateEmail($email);
 
-                // Si se encuentra el correo electrónico en la base de datos.
+                // Si se encuentra el correo electrónico en la base de datos, realiza alguna acción y redirige al usuario a una vista específica.
                 if (!empty($data)) {
                     $email = $data['email'];
                     // Realiza alguna acción, como registrar una marca de tiempo, que no está presente en el código proporcionado.
@@ -254,7 +252,7 @@ class LoginController extends Controller
                     $this->view('forget', $data, 'auth');
                 }
             } else {
-                // Si hay errores de validación en el correo electrónico, muestra la vista 'forget' con los errores.
+                // Si hay errores de validación en el correo electrónico, muestra la vista 'forget' con los errores correspondientes.
                 $data = [
                     "titulo" => "Recuperar contraseña",
                     "subtitulo" => "Formulario recuperar contraseña",
@@ -264,40 +262,66 @@ class LoginController extends Controller
                 $this->view('forget', $data, 'auth');
             }
         } else {
-            // Si la solicitud no es un POST, muestra un mensaje de error.
+            // Si la solicitud no es un método POST, muestra un mensaje de error.
             die("!Te pillé, ingreso no permitido¡");
         }
     }
 
 
+    /**
+     * Carga la vista 'email_send' para mostrar un mensaje de confirmación después de enviar un correo electrónico.
+     *
+     * Esta función se encarga de cargar una vista específica llamada 'email_send'. Define un arreglo $data que contiene información
+     * para la vista, como el título y el subtítulo que se mostrarán en la página.
+     *
+     * @return void No retorna ningún valor.
+     */
     function emailSend()
-{
-    // Esta función se encarga de cargar una vista llamada 'email_send'.
-    // Se define un arreglo $data que contiene información para la vista, como el título y el subtítulo.
-    $data = [
-        "titulo" => "Login",
-        "subtitulo" => "Formulario login",
-    ];
+    {
+        // Se define un arreglo $data que contiene información para la vista, como el título y el subtítulo.
+        $data = [
+            "titulo" => "Login",
+            "subtitulo" => "Formulario login",
+        ];
 
-    $this->view('email_send', $data, 'auth');
-}
-
-
+        // Carga la vista 'email_send' y pasa el arreglo $data y la plantilla 'auth' como parámetros.
+        $this->view('email_send', $data, 'auth');
+    }
 
 
+    /**
+     * Verifica si ha pasado un tiempo determinado desde la última verificación de un usuario.
+     *
+     * Esta función obtiene la fecha de la última verificación del usuario a través de un modelo y realiza cálculos para determinar si ha pasado suficiente tiempo desde entonces.
+     *
+     * @param int|string $id_user El ID del usuario para verificar el tiempo. Puede ser un entero o una cadena.
+     * @return mixed Devuelve el resultado de la comparación de tiempo para determinar si ha pasado suficiente tiempo desde la última verificación.
+     */
     function compare($id_user)
-{
-    // Esta función verifica si ha pasado un cierto tiempo desde la última vez que se verificó un usuario (por ejemplo, para recuperación de contraseña).
-    // La función obtiene una fecha de verificación del usuario y realiza algún cálculo para determinar si ha pasado suficiente tiempo.
-    $fecha = $this->model->chekear($id_user);
-    $data = DateHelper::timestamp($fecha);
-    return $data;
-}
+    {
+        // Obtener la fecha de la última verificación del usuario a través del modelo.
+        $fecha = $this->model->chekear($id_user);
+
+        // Realizar cálculos de tiempo utilizando el helper DateHelper y la fecha obtenida.
+        $data = DateHelper::timestamp($fecha);
+
+        // Devolver el resultado de la comparación de tiempo para determinar si ha pasado suficiente tiempo desde la última verificación.
+        return $data;
+    }
 
 
+
+    /**
+     * Función para manejar la actualización de contraseñas de usuario.
+     *
+     * Esta función verifica si la solicitud es un formulario POST y realiza validaciones en los campos de contraseña.
+     * Maneja la lógica de actualización de contraseña y redirige al usuario a diferentes vistas según el resultado.
+     *
+     * @param string $id El ID del usuario para actualizar la contraseña. Valor predeterminado: cadena vacía.
+     * @return void No retorna ningún valor.
+     */
     function updatepassword($id = "")
     {
-        // Esta función maneja la actualización de contraseñas de usuario.
         // Verifica si la solicitud es un formulario POST.
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errorres = array();
@@ -305,7 +329,7 @@ class LoginController extends Controller
             $password = $_POST['password'] ?? '';
             $confirm_password = $_POST['confirm_password'] ?? '';
 
-            // Validaciones de contraseñas y comprobación de caducidad del enlace de recuperación.
+            // Realiza validaciones de contraseñas y comprueba la caducidad del enlace de recuperación.
             if ($password == "") {
                 $errorres['password_error'] = "La contraseña es requerida";
             }
@@ -319,7 +343,7 @@ class LoginController extends Controller
                 $errorres['expire_error'] = "El enlace de recuperación ha expirado";
             }
 
-            // Si hay errores de validación, muestra la vista 'update' con los errores.
+            // Si hay errores de validación, muestra la vista 'update' con los errores correspondientes.
             if (!empty($errorres)) {
                 $data = [
                     "titulo" => "Modificar contraseña",
@@ -329,7 +353,7 @@ class LoginController extends Controller
                 ];
                 $this->view('update', $data, 'auth');
             } else {
-                // Actualiza la contraseña del usuario en el modelo.
+                // Actualiza la contraseña del usuario en el modelo y redirige al usuario a la vista 'admin' si la actualización tiene éxito.
                 $id = Helper::decrypt($id);
                 if ($this->model->updatePassword($id, $password)) {
                     // Inicia sesión con la nueva contraseña y redirige al usuario a la vista 'admin'.
@@ -339,7 +363,7 @@ class LoginController extends Controller
                 }
             }
         } else {
-            // Si la solicitud no es un POST, muestra la vista 'update' sin errores.
+            // Si la solicitud no es un formulario POST, muestra la vista 'update' sin errores.
             $data = [
                 "titulo" => "Modificar contraseña",
                 "subtitulo" => "Formulario modificar contraseña",
@@ -349,5 +373,6 @@ class LoginController extends Controller
             $this->view('update', $data, 'auth');
         }
     }
+
 
 }
