@@ -4,6 +4,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /vendor
 =======
 /vendor
@@ -25,3 +26,7 @@ vendor
 =======
 vendor
 >>>>>>> PedroSanchez
+=======
+/vendor
+.gitignore
+>>>>>>> camilohernandez
