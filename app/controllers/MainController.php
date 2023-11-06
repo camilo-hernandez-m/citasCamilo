@@ -2,7 +2,7 @@
 
 namespace Adso\controllers;
 
-use Adso\Libs\controller; // Importa la clase Controller del espacio de nombres Adso\Libs
+use Adso\Libs\controller; 
 
 class MainController extends Controller
 {
@@ -10,7 +10,6 @@ class MainController extends Controller
     {
     }
 
-    // Constructor de la clase
     function index()
     {
         $data = [

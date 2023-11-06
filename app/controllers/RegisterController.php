@@ -29,8 +29,7 @@ class RegisterController extends controller
 
     function validate()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //regitrar el nuevousuario en el sistema
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {            
             $errores = [];
 
             $name = $_POST['first_name'] ?? '';
@@ -120,16 +119,11 @@ class RegisterController extends controller
             'status'    => false,
             'data'      => false,
             'message'   => 'Esta intentando acceder a informaión privada'
-        );
-        //Validamos que la solicitud sea por POST
+        );        
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $request = json_decode(file_get_contents("php://input"));
-            //Tomamos el atributo correo que se envio codificado
-            //De igual forma pudo llegar otro atribuito o varios atributos
+            $request = json_decode(file_get_contents("php://input"));                        
             $email = $request->email;
-            //Consultamos con el modelo y pasamos el correo
-            $data = $this->model->getEmail($email);
-            //Preguntamos si nos llega algun dato de la consulta
+            $data = $this->model->getEmail($email);            
 
             if ($data) {
                 $response['status']  = 200;
@@ -138,8 +132,7 @@ class RegisterController extends controller
             } else {
                 $response['status'] = 200;
                 $response['message'] = 'estoy sobre escribiendo el mensaje';
-            }
-            //Codificamos la respuesta al cliente
+            }            
             echo json_encode($response, http_response_code($response['status']) );
         }
     }
@@ -149,16 +142,11 @@ class RegisterController extends controller
             'status'    => false,
             'data'      => false,
             'message'   => 'Esta intentando acceder a informaión privada'
-        );
-        //Validamos que la solicitud sea por POST
+        );        
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $request = json_decode(file_get_contents("php://input"));
-            //Tomamos el atributo correo que se envio codificado
-            //De igual forma pudo llegar otro atribuito o varios atributos
-            $usuario = $request->usuario;
-            //Consultamos con el modelo y pasamos el correo
-            $data = $this->model->getUsuario($usuario);
-            //Preguntamos si nos llega algun dato de la consulta
+            $request = json_decode(file_get_contents("php://input"));                        
+            $usuario = $request->usuario;            
+            $data = $this->model->getUsuario($usuario);            
 
             if ($data) {
                 $response['status']  = 200;
@@ -167,8 +155,7 @@ class RegisterController extends controller
             } else {
                 $response['status'] = 200;
                 $response['message'] = 'estoy sobre escribiendo el mensaje';
-            }
-            //Codificamos la respuesta al cliente
+            }            
             echo json_encode($response, http_response_code($response['status']) );
         }
     }
